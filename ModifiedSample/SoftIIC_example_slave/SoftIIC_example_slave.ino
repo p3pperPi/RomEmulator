@@ -1,5 +1,5 @@
 #include <avr/pgmspace.h>
-#include <SoftIIC.h>
+#include "SoftIIC.h"
 
 // Note: these can be *any* pins, not just a4/a5.
 #define SDA_PIN  A4
@@ -14,7 +14,8 @@ static uint8_t current_register_address_for_51 = 0x00;
 PROGMEM const uint8_t MY_VIRTUAL_EEPROM50[]             = {0x00, 0x0F, 0x01, 0x02, 0x03, 0xab};
 PROGMEM const uint8_t MY_VIRTUAL_EEPROM51[]             = {0xF0, 0xFF, 0xF1, 0xAA, 0x09, 0xa4};
 
-   SoftIIC  my_SoftIIC = SoftIIC(SCL_PIN, SDA_PIN, true, IIC_SPEED, true);
+//   SoftIIC  my_SoftIIC = SoftIIC(SCL_PIN, SDA_PIN, true, IIC_SPEED, true);
+   SoftIIC  my_SoftIIC = SoftIIC(SCL_PIN, SDA_PIN, IIC_SPEED, true, true, true);
   
 void setup() {
   Serial.begin(SERIAL_PORT_SPEED);  
