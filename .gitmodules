@@ -1,0 +1,3 @@
+[submodule "mods/SoftIIC"]
+	path = mods/SoftIIC
+	url = https://github.com/cirthix/SoftIIC.git
