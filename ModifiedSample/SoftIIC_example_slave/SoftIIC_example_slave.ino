@@ -19,7 +19,7 @@ PROGMEM const uint8_t MY_VIRTUAL_EEPROM51[]             = {0xF0, 0xFF, 0xF1, 0xA
   
 void setup() {
   Serial.begin(SERIAL_PORT_SPEED);  
-  noInterrupts();
+//  noInterrupts();
 }
 
 void loop() {
