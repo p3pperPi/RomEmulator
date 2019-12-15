@@ -1,8 +1,14 @@
 # ROM EMULATR
 ---
 ## 概要
-Arduino向けのEEPROM(24C08N)をエミュレー
-するプロジェクト
+Arduino向けのEEPROM(24C08N)をエミュレートするプロジェクト
+
+[ModifiedSample/\*](ModifiedSample/) :サンプルプログラムをとりあえずコンパイルできるようにしたもの
+
+[RomEmulator/\*](RomEmulator/) : EEPROMのエミュレータプログラム(製作中)
+
+[RomTester/\*](RomTester/) : ↑のテスト用プログラム(製作中)
+
 
 
 ## 参照ライブラリ
