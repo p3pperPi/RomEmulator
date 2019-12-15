@@ -75,6 +75,9 @@ void loop() {
       write_iic_slave);
   }
 
+  Serial.print("get data :");
+  Serial.println(successful_bytes);
+
 //  delay(10000);
 }
 
