@@ -52,7 +52,7 @@ SoftIIC  my_SoftIIC = SoftIIC(SCL_PIN, SDA_PIN, IIC_SPEED, true, true, true);
 
 void setup() {
 	for(int i = 0;i < 1024;i++){
-		virtual_ROM[i] = i&0xFF;
+		virtual_ROM[i] = i&0x00;
 	}
   Serial.begin(SERIAL_PORT_SPEED);
 }
