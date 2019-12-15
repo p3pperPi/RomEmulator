@@ -9,6 +9,8 @@
 #define IIC_SPEED 50
 
 //CONSTANTS for AT24C08A
+byte virtual_ROM[1024];
+
 const uint8_t RET_ACK  = 0x01;
 const uint8_t RET_NACK = 0x00;
 const bool RW_READ  = 1;
@@ -49,6 +51,9 @@ bool get_rw_digit(byte addr){
 SoftIIC  my_SoftIIC = SoftIIC(SCL_PIN, SDA_PIN, IIC_SPEED, true, true, true);
 
 void setup() {
+	for(int i = 0;i < 1024;i++){
+		virtual_ROM[i] = i&0xFF;
+	}
   Serial.begin(SERIAL_PORT_SPEED);
 }
 
@@ -84,7 +89,6 @@ void loop() {
 //
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-byte virtual_ROM[1024];
 void ROM_set_byte(byte page,byte addr,byte data){
  virtual_ROM[ ((page&0x03) << 8) | addr ] = data;
 }
@@ -139,7 +143,7 @@ uint8_t respond_to_data(uint8_t received_Byte){
 uint8_t read_iic_slave(uint8_t chipaddr_7bit, uint8_t* value) {
   *value = ROM_read_byte(current_Page,current_MEM+byte_Counter);
   byte_Counter++;
-  return 1; // send data to the master until master returns NACK.
+  return 0; // send data to the master until master returns NACK.
 }
 
 uint8_t write_iic_slave(uint8_t chipaddr_7bit, uint8_t received_Byte) {

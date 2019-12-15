@@ -13,7 +13,7 @@ void loop() {
   Wire.beginTransmission(addr + (i/0xFF));
   Wire.write(i%0xFF);
   Wire.endTransmission();
-  Wire.requestFrom(addr + (i/0xFF), 1, true);
+  Wire.requestFrom(addr + (i/0xFF), 1, false);
 
 	while(Wire.available()){
 	  Serial.print(i);
