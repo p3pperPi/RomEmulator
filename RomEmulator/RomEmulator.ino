@@ -1,5 +1,6 @@
 #include <avr/pgmspace.h>
 #include "SoftIIC.h"
+#include <EEPROM.h>
 
 // Note: these can be *any* pins, not just a4/a5.
 #define SDA_PIN  A4
@@ -9,8 +10,6 @@
 #define IIC_SPEED 50
 
 //CONSTANTS for AT24C08A
-byte virtual_ROM[1024];
-
 const uint8_t RET_ACK  = 0x01;
 const uint8_t RET_NACK = 0x00;
 const bool RW_READ  = 1;
@@ -51,9 +50,6 @@ bool get_rw_digit(byte addr){
 SoftIIC  my_SoftIIC = SoftIIC(SCL_PIN, SDA_PIN, IIC_SPEED, true, true, true);
 
 void setup() {
-	for(int i = 0;i < 1024;i++){
-		virtual_ROM[i] = i&0x00;
-	}
   Serial.begin(SERIAL_PORT_SPEED);
 }
 
@@ -78,7 +74,6 @@ void loop() {
   Serial.print("get data :");
   Serial.println(successful_bytes);
 
-//  delay(10000);
 }
 
 
@@ -93,11 +88,11 @@ void loop() {
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 void ROM_set_byte(byte page,byte addr,byte data){
- virtual_ROM[ ((page&0x03) << 8) | addr ] = data;
+ EEPROM.update( ((page&0x03) << 8) | addr , data);
 }
 
 byte ROM_read_byte(byte page,byte addr){
- return  virtual_ROM[ ((page&0x03) << 8) | addr ];
+ return  EEPROM.read(((page&0x03) << 8) | addr );
 }
 
 
