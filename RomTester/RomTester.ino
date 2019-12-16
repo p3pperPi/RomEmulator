@@ -42,31 +42,4 @@ void loop() {
 	}
 
 	delay(3000);
-//	byte n = 0;
-//	while(Wire.available()){
-//		buff[n] = Wire.read();
-//		n++;
-//	}
-//	Serial.print(i,HEX);
-//	Serial.print(" : ");
-//	for(int m = 0;m < n;m++){
-//		Serial.print(" ");
-//		Serial.print(buff[m],HEX);
-//	}
-//	Serial.println();
-//  i+=16;
-//  if(i==1024){
-//   i = 0;
-//   for(int page = 0;page < 4; page++){
-//    Wire.beginTransmission(addr + page);
-//    Wire.write(addr);
-//    for(byte n = 0;n < 0xFF;n++){
-//     Wire.write(n - j);
-//    }
-//    Wire.endTransmission();
-//   }
-//   j++;
-//   delay(2000);
-//  }
-//  delay(10);
 }
