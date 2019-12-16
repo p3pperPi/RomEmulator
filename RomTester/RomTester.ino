@@ -15,6 +15,7 @@ void loop() {
 		Serial.print('\t');
 		Serial.print(i,HEX);
 	}
+	Serial.println();
 	for(byte page = 0;page < 4;page++){
 		for(byte upper = 0;upper < 0x0F ;upper++){
 		  Wire.beginTransmission(ADDR + page);
