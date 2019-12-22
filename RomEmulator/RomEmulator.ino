@@ -23,7 +23,7 @@ int  byte_Counter = 0;
 byte current_Page = 0;
 bool current_RW   = 0;
 byte current_MEM  = 0; //currnet ROM address
-
+bool rom_Protected = false;
 
 // treat address
 // 0bnnnnnxxx -> nnnnn
@@ -211,7 +211,9 @@ void display_rom(){
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 void ROM_set_byte(byte page,byte addr,byte data){
-	EEPROM.update( ((page&0x03) << 8) | addr , data);
+	if(!rom_Protected){
+		EEPROM.update( ((page&0x03) << 8) | addr , data);
+	}
 }
 
 byte ROM_read_byte(byte page,byte addr){
