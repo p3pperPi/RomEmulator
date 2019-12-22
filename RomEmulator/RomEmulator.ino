@@ -70,15 +70,18 @@ void setup() {
 
 	display_rom();
 	delay(100);
+
+	reset_mode();
 }
 
 void loop() {
 
 	// Last, act as A 24c04 eeprom (read-only) slave
-	uint8_t successful_bytes = 0;
-	uint16_t TOTAL_EXPECTED_BYTES = 512;
+	// uint8_t successful_bytes = 0;
+	// uint16_t TOTAL_EXPECTED_BYTES = 512;
 	//  while (successful_bytes < TOTAL_EXPECTED_BYTES) {
-	successful_bytes = successful_bytes + my_SoftIIC.SlaveHandleTransaction(
+	// successful_bytes = successful_bytes + my_SoftIIC.SlaveHandleTransaction(
+	my_SoftIIC.SlaveHandleTransaction(
 		respond_to_address,
 		respond_to_command,
 		respond_to_data,
@@ -102,7 +105,7 @@ void loop() {
 				}else{
 					if (read_Data == 'c'){
 						Serial.println("canceled");
-						serial_Mode = MODE_WAIT;
+						reset_mode();
 					}
 					if (read_Data == 'e'){
 						Serial.println();
@@ -119,11 +122,11 @@ void loop() {
 						serial_Mode = MODE_READ_ALL;
 						break;
 					case COMMAND_READ_BYTE :
-						Serial.println("Input address.(DEC, 0~1023)");
+						Serial.println("Input address.(DEC, 0~1023,\'e\' to end , \'c\' to cancel)");
 						serial_Mode = MODE_READ_BYTE_INPUT;
 						break;
 					case COMMAND_WRITE_BYTE :
-						Serial.println("Input address.(DEC, 0~1023)");
+						Serial.println("Input address.(DEC, 0~1023,\'e\' to end , \'c\' to cancel)");
 						serial_Mode = MODE_WRITE_BYTE_ADRIN;
 						break;
 				}
@@ -135,7 +138,7 @@ void loop() {
 	switch(serial_Mode){
 		case MODE_READ_ALL:
 			display_rom();
-			serial_Mode = MODE_WAIT;
+			reset_mode();
 			break;
 		case MODE_READ_BYTE:
 			input_Value &= 0x03FF;
@@ -143,11 +146,11 @@ void loop() {
 			Serial.print(input_Value);
 			Serial.print("] = ");
 			Serial.println(EEPROM[input_Value]);
-			serial_Mode = MODE_WAIT;
+			reset_mode();
 			break;
 		case MODE_WRITE_BYTE_CAP :
 			write_Addr = input_Value & 0x3FF;
-			Serial.println("Input value.");
+			Serial.println("Input value. (DEC, 0~255,\'e\' to end , \'c\' to cancel)");
 			serial_Mode = MODE_WRITE_BYTE_INPUT;
 			input_Value = 0;
 			break;
@@ -158,13 +161,18 @@ void loop() {
 			Serial.print(" to ROM[");
 			Serial.print(write_Addr);
 			Serial.println("]");
-			serial_Mode = MODE_WAIT;
+			reset_mode();
 			break;
 	}
 
 }
 
 
+void reset_mode(){
+	serial_Mode = MODE_WAIT;
+	Serial.println();
+	Serial.println("\'r\' : Read byte, \'R\' : Read all bytes, \'w\' : Write byte.");
+}
 
 void display_rom(){
 	for(int page = 0;page < 4;page++){
