@@ -17,9 +17,9 @@ void loop() {
 	}
 	Serial.println();
 	for(byte page = 0;page < 4;page++){
-		for(byte upper = 0;upper < 0x0F ;upper++){
+		for(byte upper = 0;upper <= 0x0F ;upper++){
 		  Wire.beginTransmission(ADDR + page);
-		  Wire.write(upper);
+		  Wire.write(upper<<4);
 		  Wire.endTransmission();
 		  Wire.requestFrom(ADDR+page, 16);
 			byte pos = 0;
@@ -33,7 +33,7 @@ void loop() {
 			Serial.print("/");
 			Serial.print(upper,HEX);
 			Serial.print("0 : ");
-			for(byte i = 0;i < 0x0F;i++){
+			for(byte i = 0;i <= 0x0F;i++){
 				Serial.print('\t');
 				Serial.print(buff[i],HEX);
 			}
