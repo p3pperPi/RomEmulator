@@ -51,6 +51,8 @@ SoftIIC  my_SoftIIC = SoftIIC(SCL_PIN, SDA_PIN, IIC_SPEED, true, true, true);
 
 void setup() {
   Serial.begin(SERIAL_PORT_SPEED);
+  
+	display_rom();
 }
 
 void loop() {
@@ -77,6 +79,33 @@ void loop() {
 }
 
 
+
+void display_rom(){
+	for(int page = 0;page < 4;page++){
+		Serial.print("page");
+		Serial.print(page);
+		for(byte i = 0;i <= 0x0F;i++){
+			Serial.print('\t');
+			Serial.print('n');
+			Serial.print(i,HEX);
+		}
+		Serial.println();
+		for(int upper = 0;upper <= 0x0F;upper++){
+			Serial.print(upper,HEX);
+			Serial.print("n : ");
+			for(byte lower = 0;lower <= 0x0F;lower++){
+				int itr = 
+					((page  & 0x03) << 8) |
+					((upper & 0x0F) << 4) |
+					((lower & 0x0F) << 0) ;
+				Serial.print('\t');
+				Serial.print(EEPROM.read(itr),HEX);
+	//				Serial.print(data[itr],HEX);
+			}
+			Serial.println();
+		}
+	}
+}
 
 //////////////////////////////////////////////////////////// These functions should be edited to give the iic slave a 'personality'. ////////////////////////////////////////////////////////////////
 
